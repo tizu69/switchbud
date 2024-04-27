@@ -13,6 +13,7 @@ var localizations = map[string]string{
 	"pack.onlineCount":       "%d player/s online",
 	"pack.onlineCount.empty": "No players online",
 	"pack.switching":         "Please wait, launching pack!",
+	"pack.stopping":          "Please wait, stopping server!",
 	"pack.switch":            "Launch pack",
 	"pack.switch.stop":       "Stop server",
 	"pack.switch.occupied":   "Server is occupied",

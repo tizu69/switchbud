@@ -59,10 +59,8 @@ func serverPurge(running []configServer, add int, maxSlots int) []configServer {
 
 	var itemsToRemove []string
 	for i := len(sortedItems) - 1; i >= 0 && requiredSpace > 0; i-- {
-		if sortedItems[i].Value <= requiredSpace {
-			itemsToRemove = append(itemsToRemove, sortedItems[i].Key)
-			requiredSpace -= sortedItems[i].Value
-		}
+		itemsToRemove = append(itemsToRemove, sortedItems[i].Key)
+		requiredSpace -= sortedItems[i].Value
 	}
 
 	log.Debug("Executing the great purge", "sorted", sortedItems, "toRemove", itemsToRemove)

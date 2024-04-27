@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 	"strings"
+	"sync"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/charmbracelet/log"
@@ -29,7 +30,17 @@ func dSwitchTo(s *discordgo.Session, i *discordgo.InteractionCreate, cfg config)
 
 	currentPlayerCount := ccGetPlayerCount(srv)
 	if currentPlayerCount == 0 {
-		s.InteractionResponseDelete(i.Interaction)
+		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseUpdateMessage,
+			Data: &discordgo.InteractionResponseData{
+				Embeds: []*discordgo.MessageEmbed{
+					{
+						Description: loc("pack.stopping"),
+						Color:       hexToInt(loc("color.error")),
+					},
+				},
+			},
+		})
 		killServer(i.ChannelID, srv)
 
 		_, err := s.ChannelMessageSendComplex(i.ChannelID, &discordgo.MessageSend{
@@ -86,9 +97,15 @@ func dSwitchTo(s *discordgo.Session, i *discordgo.InteractionCreate, cfg config)
 		},
 	}))
 
+	var wg sync.WaitGroup
 	for _, v := range toKill {
-		killServer(i.ChannelID, v)
+		wg.Add(1)
+		go func(v configServer) {
+			killServer(i.ChannelID, v)
+			wg.Done()
+		}(v)
 	}
+	wg.Wait()
 
 	bootServer(i.ChannelID, srv)
 }

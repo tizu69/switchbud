@@ -32,7 +32,7 @@ func bButton(label string, style discordgo.ButtonStyle, customId string, disable
 func bEmojiFromUrl(url, guildId string) *discordgo.ComponentEmoji {
 	image, err := http.Get(url)
 	if err != nil {
-		log.Error("[imgoji] Failed to download image", "url", url, "err", err)
+		log.Warn("[imgoji] Failed to download image", "url", url, "err", err)
 		return &discordgo.ComponentEmoji{Name: "❌"}
 	}
 
@@ -44,7 +44,7 @@ func bEmojiFromUrl(url, guildId string) *discordgo.ComponentEmoji {
 		Name:  "emoj",
 	})
 	if err != nil {
-		log.Error("[imgoji] Failed to upload image", "url", url, "err", err)
+		log.Warn("[imgoji] Failed to upload image", "url", url, "err", err)
 		return &discordgo.ComponentEmoji{Name: "❌"}
 	}
 
