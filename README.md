@@ -24,6 +24,12 @@ switchbud run
 
 these docs are WIP! here's some misc stuff:
 
+## My ports are conflicting
+
+As of right now, SwitchBud can't manage ports for you. The best solution would be to assign
+each server a unique port number manually, then putting that into the pack description. This
+works suprisingly well.
+
 ## Config / Resource Slots
 
 A resource slot is an arbitrary unit. You can use any value there, although I usually use the
